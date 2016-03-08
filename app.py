@@ -1,5 +1,7 @@
 from Tkinter import *
+import threading
 import os
+from threading import Thread
 master = Tk()
 
 L1 = Label(master, text="URL:")
@@ -15,12 +17,15 @@ def callback():
 
 def abort():
   print "Aborting...."
-  os.system("pkill -9 youtube-dl")
+  os.system("killall youtube-dl")
 
+link = e.get()
+thread1 = Thread(target = callback, args = ())
+thread2 = Thread(target = abort, args = ())
 
-download_button = Button(master, text="Download", width=25, bd=2,command=callback)
+download_button = Button(master, text="Download", width=25, bd=2,command=thread1.start)
 download_button.pack()
-cancel_button = Button(master, text="Cancel", width=25, bd=2,command=abort)
+cancel_button = Button(master, text="Cancel", width=25, bd=2,command=thread2.start)
 cancel_button.pack()
 
 mainloop()
